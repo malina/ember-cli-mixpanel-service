@@ -21,7 +21,9 @@ export default Ember.Service.extend({
                 page = loc.hash ? loc.hash.substring(1) : loc.pathname + loc.search;
             }
 
-            window.mixpanel.track("visit", Ember.merge({pageName: page}, overrides));
+            Ember.run.schedule('afterRender', this, function() {
+              window.mixpanel.track("visit", Ember.merge({pageName: page}, overrides));
+            });
         }
 
         if (this.logTrackingEnabled()) {
